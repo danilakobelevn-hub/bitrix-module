@@ -325,6 +325,14 @@ class Register extends Controller
             return ['msg' => GetMessage('ARGUMENT_ERROR')];
         }
 
+        global $USER;
+
+        $currentLoyaltyAccountId = LoyaltyAccountService::getLoyaltyAccountId((int) $USER->GetID());
+
+        if ($currentLoyaltyAccountId === null || $currentLoyaltyAccountId !== (int) $idInLoyalty) {
+            return ['msg' => 'Forbidden'];
+        }
+
         /** @var LoyaltyAccountService $service */
         $service = ServiceLocator::get(LoyaltyAccountService::class);
 
